@@ -34,16 +34,19 @@ fs.readdir(path.join(__dirname, 'styles'), { withFileTypes: true }, (error, file
             }
       });
 });
-fs.rmdir(path.join(__dirname, 'project-dist','assets'), {recursive:true},()=> {
-    fs.mkdir(path.join(__dirname, 'project-dist','assets'), {recursive:true}, () => {
-        fs.readdir(path.join(__dirname, 'assets'),{withFileTypes:true}, (err, files) => {
+
+fs.mkdir(path.join(__dirname, 'project-dist', 'assets'), {recursive:true}, () => {})    
+const copyAssets = (into, outto) => fs.readdir(path.join(__dirname, into),{withFileTypes:true}, (err, files) => {
                 if (err) {console.log('Error!!!');process.exit()}
                 files.forEach(file => {
                     if (file.isFile()){
-                        fs.copyFile(path.join(__dirname, 'assets', file.name),path.join(__dirname, 'project-dist','assets', file.name), (err) => {
+                        fs.copyFile(path.join(__dirname, into, file.name),path.join(__dirname, outto, file.name), (err) => {
                             if (err) {console.log('Error!!!');process.exit()}
                         })
-                    }})
+                    } else {
+                        fs.mkdir(path.join(__dirname, outto, file.name),() => {})
+                        copyAssets(`${into}/${file.name}`, `${outto}/${file.name}`)
+                    }
+                })
         })
-    })
-})
+copyAssets('assets','project-dist/assets')   

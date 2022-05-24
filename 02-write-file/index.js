@@ -18,7 +18,7 @@ stdin.on('data', data => {
         if (err) {stdout.write('Error', err)}
     })
 })
-rLine.on('str', (input) => {
+rLine.on('line', (input) => {
     if (input === 'exit') process.exit()
 })
 process.on('exit',() => stdout.write('good luck to learn node JS\n'))
