@@ -3,7 +3,6 @@ const path = require('path')
 
 
 fs.mkdir(path.join(__dirname, 'project-dist'), {recursive:true},()=>{})
-fs.mkdir(path.join(__dirname, 'project-dist', 'index.html'), {recursive:true},()=>{})
 let copyHtml = ""
 const readStream = fs.createReadStream(path.join(__dirname,'template.html'),'utf-8',(err)=>{
     if (err) {console.log("Error copy file")}
